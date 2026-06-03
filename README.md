@@ -42,7 +42,15 @@ The application starts on the default Spring Boot port:
 8080
 ```
 
+The application does not require a GitHub token for public repositories.
+
 ## Running Tests
+
+Run a full build:
+
+```bash
+./gradlew clean build
+```
 
 Run the test suite with Gradle:
 
@@ -119,11 +127,17 @@ GET /repos/{owner}/{repository}/branches
 
 The GitHub API base URL is configured with:
 
-```yaml
-github:
-  api:
-    base-url: https://api.github.com
+```properties
+github.api.base-url=https://api.github.com
 ```
+
+It can be overridden when running the application:
+
+```bash
+./gradlew bootRun --args='--github.api.base-url=https://api.github.com'
+```
+
+The GitHub client uses `Accept: application/vnd.github+json` and `X-GitHub-Api-Version: 2022-11-28`.
 
 ## Scope Decisions
 
