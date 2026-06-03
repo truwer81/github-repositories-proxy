@@ -2,6 +2,7 @@ package pl.jakubheppner.githubrepositoriesproxy;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
@@ -13,11 +14,17 @@ import java.util.List;
 @Component
 class GithubClient {
 
+    private static final String GITHUB_ACCEPT_HEADER = "application/vnd.github+json";
+    private static final String GITHUB_API_VERSION_HEADER = "X-GitHub-Api-Version";
+    private static final String GITHUB_API_VERSION = "2022-11-28";
+
     private final RestClient restClient;
 
     GithubClient(@Value("${github.api.base-url}") String githubApiBaseUrl) {
         this.restClient = RestClient.builder()
                 .baseUrl(githubApiBaseUrl)
+                .defaultHeader(HttpHeaders.ACCEPT, GITHUB_ACCEPT_HEADER)
+                .defaultHeader(GITHUB_API_VERSION_HEADER, GITHUB_API_VERSION)
                 .build();
     }
 
